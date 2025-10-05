@@ -4,7 +4,7 @@ import styled from "styled-components";
 const Title = styled.h1`
   color: #36476D;
   text-align: center;
-  font-size: 48px;
+  font-size: 40px;
   font-family: 'Poppins', sans-serif;
 `
 
