@@ -34,6 +34,7 @@ const Form = styled.form`
 
 const Label = styled.label`
   font-size: 15px;
+  font-weight: 500;
 `
 
 const Input = styled.input`

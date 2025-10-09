@@ -9,20 +9,23 @@ import logo from "../src/assets/logo.png";
 const Title = styled.h1`
   color: #36476D;
   text-align: center;
-  font-size: 35px;
+  font-size: 32px;
   font-family: 'Poppins', sans-serif;
 `
 
-const Main = styled.body`
-    background-color: #F1F1F1;
-    font-family: 'Poppins', sans-serif;
-    color: #36476D;
-    justify-items: center;
+const Main = styled.div`
+  background-color: #F1F1F1;
+  font-family: 'Poppins', sans-serif;
+  color: #36476D;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `
 
 const Logo = styled.img`
     width: 200px;
-    margin-top: 30px;
+    margin-top: 40px;
+    margin-left: 65px;
 `
 
 
@@ -30,18 +33,23 @@ const name = data[0].name
 const email = data[0].email
 
 
+const Background = styled.div`
+  background-color: #F1F1F1;
+  min-height: 100vh;
+`
+
 function App() {
   return (
-    <>
-    <Logo src={logo} alt="Spectator logo"/>
-    <Main>
-    <Title>Spectator's Sources</Title>
-    <AddBox></AddBox>
-    {data.map((item, index) => (
-      <ListItem key={index} index={index} name={item.name} email={item.email}/>
-      ))}
-    </Main>
-    </>
+    <Background>
+      <Logo src={logo} alt="Spectator logo"/>
+      <Main>
+        <Title>Spectator's Sources</Title>
+        <AddBox />
+        {data.map((item, index) => (
+          <ListItem key={index} index={index} name={item.name} email={item.email}/>
+        ))}
+      </Main>
+    </Background>
   );
 }
 

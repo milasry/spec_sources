@@ -21,7 +21,7 @@ const SourceEmail = styled.p`
   color: #828EA6;
 `
 
-const ItemBox = styled.p`
+const ItemBox = styled.div`
     display: flex;
     justify-content: space-between;
     background: white;
@@ -35,7 +35,7 @@ const ItemBox = styled.p`
     padding-bottom: 25px;
     padding-left: 50px;
     gap: 121px;
-    margin: 20px;
+    margin: 10px;
     align-items: center;
     box-shadow: 0px 4px 4px #b2b3b7;
 `
