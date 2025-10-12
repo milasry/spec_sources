@@ -51,15 +51,17 @@ const DeleteButton = styled.button`
     border: None;
 `
 
-const ListItem = ({name, email, index}) => {
+
+const ListItem = ({name, email, index, onRemove}) => {
   return (
     <ItemBox>
-    <SourceNumber>{index + 1}</SourceNumber>
-    <SourceName>{name}</SourceName>
-    <SourceEmail>{email}</SourceEmail>
-    <DeleteButton>DELETE</DeleteButton>
+      <SourceNumber>{index + 1}</SourceNumber>
+      <SourceName>{name}</SourceName>
+      <SourceEmail>{email}</SourceEmail>
+      <DeleteButton onClick={() => onRemove(index)}>DELETE</DeleteButton>
     </ItemBox>
   );
 };
+
 
 export default ListItem;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const AddContainer = styled.p`
@@ -44,17 +44,38 @@ const Input = styled.input`
     height: 35px;
 `
 
-const AddBox = () => {
+const AddBox = ({ sources, setSources }) => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+
+  const submit = (e) => {
+    e.preventDefault();
+    if (!name.trim() || !email.trim()) return;
+    setSources([...sources, { name, email }]);
+    setName("");
+    setEmail("");
+  };
+
   return (
     <AddContainer>
-    <Form>
+      <Form onSubmit={submit}>
         <Label htmlFor="name">Source name:</Label>
-        <Input type="text" id="name"/>
+        <Input
+          type="text"
+          id="name"
+          value={name}
+          onChange={e => setName(e.target.value)}
+        />
 
         <Label htmlFor="email">Source email:</Label>
-        <Input type="email" id="email"/>
-    </Form>
-    <AddButton>ADD</AddButton>
+        <Input
+          type="email"
+          id="email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+        />
+        <AddButton type="submit">ADD</AddButton>
+      </Form>
     </AddContainer>
   );
 };

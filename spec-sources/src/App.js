@@ -1,10 +1,10 @@
 import './App.css';
 import styled from "styled-components";
 import ListItem from "../src/components/listItem.js";
-import {data} from "../src/data/mockdata";
+import { data as initialData } from "../src/data/mockdata";
 import AddBox from "../src/components/addBox.js";
 import logo from "../src/assets/logo.png";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Title = styled.h1`
   color: #36476D;
@@ -28,23 +28,32 @@ const Logo = styled.img`
     margin-left: 65px;
 `
 
-const name = data[0].name
-const email = data[0].email
-
 const Background = styled.div`
   background-color: #F1F1F1;
   min-height: 100vh;
 `
 
 function App() {
+  const [sources, setSources] = useState(initialData);
+
+  const handleRemove = (removeIndex) => {
+    setSources(sources.filter((_, index) => index !== removeIndex));
+  };
+
   return (
     <Background>
       <Logo src={logo} alt="Spectator logo"/>
       <Main>
         <Title>Spectator's Sources</Title>
-        <AddBox />
-        {data.map((item, index) => (
-          <ListItem key={index} index={index} name={item.name} email={item.email}/>
+        <AddBox sources={sources} setSources={setSources} />
+        {sources.map((item, index) => (
+          <ListItem
+            key={index}
+            index={index}
+            name={item.name}
+            email={item.email}
+            onRemove={handleRemove}
+          />
         ))}
       </Main>
     </Background>
