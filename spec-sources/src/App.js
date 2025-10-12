@@ -1,10 +1,10 @@
-import React from "react";
 import './App.css';
 import styled from "styled-components";
 import ListItem from "../src/components/listItem.js";
 import {data} from "../src/data/mockdata";
 import AddBox from "../src/components/addBox.js";
 import logo from "../src/assets/logo.png";
+import React, { useState } from 'react';
 
 const Title = styled.h1`
   color: #36476D;
@@ -28,10 +28,8 @@ const Logo = styled.img`
     margin-left: 65px;
 `
 
-
 const name = data[0].name
 const email = data[0].email
-
 
 const Background = styled.div`
   background-color: #F1F1F1;

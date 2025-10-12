@@ -9,7 +9,8 @@ const AddContainer = styled.p`
     background: #AFD7FA;
     border-radius: 30px;
     border-width: 1px;
-    border-color: black;
+    border-color: #000000;
+    border-style: solid;
     color: white;
     padding: 30px;
     align-items: center;
