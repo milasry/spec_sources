@@ -1,9 +1,9 @@
 import './App.css';
 import styled from "styled-components";
-import ListItem from "../src/components/listItem.js";
-import { data as initialData } from "../src/data/mockdata";
-import AddBox from "../src/components/addBox.js";
-import logo from "../src/assets/logo.png";
+import ListItem from "./components/listItem.js";
+import { data as initialData } from "./data/mockdata.js";
+import AddBox from "./components/addBox.js";
+import logo from "./assets/logo.png";
 import React, { useState, useEffect } from 'react';
 
 const Title = styled.h1`
