@@ -59,9 +59,4 @@ const ListItem = ({name, email, index, onRemove, color}) => {
       <SourceName>{name}</SourceName>
       <SourceEmail>{email}</SourceEmail>
       <DeleteButton onClick={onRemove}>DELETE</DeleteButton>
-    </ItemBox>
-  );
-};
-
-
-export default ListItem;
+    </Item

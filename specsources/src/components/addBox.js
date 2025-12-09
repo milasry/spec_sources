@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { getRandomColor } from "../utils/colorPalette";
 
 const AddContainer = styled.div`
+  position: relative;
+  overflow: hidden;
   height: 30px;
   width: 1000px;
   display: flex;
@@ -46,9 +48,46 @@ const Input = styled.input`
   height: 35px;
 `;
 
-const AddBox = ({ sources = [], setSources, onSubmit }) => {
+const fall = keyframes`
+  0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 1; }
+  100% { transform: translate3d(0, 180px, 0) rotate(240deg); opacity: 0; }
+`;
+
+const ConfettiLayer = styled.div`
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+`;
+
+const ConfettiPiece = styled.div`
+  position: absolute;
+  width: 8px;
+  height: 12px;
+  background: ${({ $color }) => $color};
+  left: ${({ $left }) => $left}%;
+  animation: ${fall} ${({ $duration }) => $duration}ms ease-out;
+  animation-delay: ${({ $delay }) => $delay}ms;
+  opacity: 0.9;
+`;
+
+const AddBox = ({ sources = [], setSources, onSubmit, onAdded }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [confettiPieces, setConfettiPieces] = useState([]);
+  const [showConfetti, setShowConfetti] = useState(false);
+
+  const triggerConfetti = () => {
+    const pieces = Array.from({ length: 70 }, () => ({
+      left: Math.random() * 100,
+      color: getRandomColor(),
+      duration: 1400 + Math.random() * 1000,
+      delay: Math.random() * 120
+    }));
+    setConfettiPieces(pieces);
+    setShowConfetti(true);
+    setTimeout(() => setShowConfetti(false), 2500);
+  };
 
   const submit = (e) => {
     e.preventDefault();
@@ -58,6 +97,8 @@ const AddBox = ({ sources = [], setSources, onSubmit }) => {
     } else if (setSources) {
       setSources(prev => [...prev, { name, email, color: getRandomColor() }]);
     }
+    triggerConfetti();
+    if (onAdded) onAdded();
     setName("");
     setEmail("");
   };
@@ -82,6 +123,19 @@ const AddBox = ({ sources = [], setSources, onSubmit }) => {
         />
         <AddButton type="submit">ADD</AddButton>
       </Form>
+      {showConfetti && (
+        <ConfettiLayer>
+          {confettiPieces.map((piece, idx) => (
+            <ConfettiPiece
+              key={idx}
+              $left={piece.left}
+              $color={piece.color}
+              $duration={piece.duration}
+              $delay={piece.delay}
+            />
+          ))}
+        </ConfettiLayer>
+      )}
     </AddContainer>
   );
 };

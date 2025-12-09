@@ -1,9 +1,9 @@
 import AddBox from '../components/addBox';
 import ListItem from '../components/listItem';
 import styled from 'styled-components';
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
-import { attachColor } from '../utils/colorPalette';
+import { attachColor, getRandomColor } from '../utils/colorPalette';
 
 const HeaderText = styled.p`
   font-family: "Poppins", sans-serif;
@@ -14,12 +14,26 @@ const HeaderText = styled.p`
   font-weight: bold;
 `;
 
+const PageBackground = styled.div`
+  background-color: ${({ $bg }) => $bg || '#F1F1F1'};
+  min-height: 100vh;
+  width: 100%;
+  transition: background-color 3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 60px;
+`;
+
 const HomePage = () => {
 
+    const baseBg = '#F1F1F1';
     const [sources, setSources] = useState([]);
     const [backendMessage, setBackendMessage] = useState('');
+    const [bgColor, setBgColor] = useState(baseBg);
+    const timerRef = useRef([]);
  
-    React.useEffect(() => {
+    useEffect(() => {
       axios.get('http://localhost:8000/')
         .then((response) => {
           setBackendMessage(response.data.message);
@@ -29,13 +43,23 @@ const HomePage = () => {
     }, []);
 
     
-    React.useEffect(() => {
+    useEffect(() => {
         axios.get('http://localhost:8000/all')
           .then((response) => {
             setSources(response.data.map(attachColor));
           })
           .catch(err => console.error('Fetch error:', err));
       }, []);
+
+    const pulseBackground = () => {
+      timerRef.current.forEach(clearTimeout);
+      timerRef.current = [];
+      setBgColor(getRandomColor());
+      timerRef.current.push(setTimeout(() => setBgColor(getRandomColor()), 1200));
+      timerRef.current.push(setTimeout(() => setBgColor(baseBg), 3000));
+    };
+
+    useEffect(() => () => timerRef.current.forEach(clearTimeout), []);
   
     const handleAddSource = (newSource) => {
       const payload = { name: newSource.sourceName, email: newSource.sourceEmail };
@@ -60,9 +84,22 @@ const HomePage = () => {
     };
   
     return (
-      <div>
+      <PageBackground $bg={bgColor}>
         <p>{backendMessage}</p>
         <HeaderText>Spectator's Sources</HeaderText>
-        <AddBox onSubmit={handleAddSource} />
+        <AddBox onSubmit={handleAddSource} onAdded={pulseBackground} />
         {sources.map((item, index) => (
-          <Lis
+          <ListItem
+            key={item.id ?? index}
+            index={index}
+            name={item.name}
+            email={item.email}
+            color={item.color}
+            onRemove={() => handleDelete(item.id ?? index)}
+          />
+        ))}
+      </PageBackground>
+    );
+  };
+   
+export default HomePage;
