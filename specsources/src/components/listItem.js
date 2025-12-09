@@ -24,7 +24,7 @@ const SourceEmail = styled.p`
 const ItemBox = styled.div`
     display: flex;
     justify-content: space-between;
-    background: white;
+    background: ${({ $color }) => $color || 'white'};
     border-radius: 25px;
     color: #36476D;
     padding: 50px;
@@ -52,13 +52,13 @@ const DeleteButton = styled.button`
 `
 
 
-const ListItem = ({name, email, index, onRemove}) => {
+const ListItem = ({name, email, index, onRemove, color}) => {
   return (
-    <ItemBox>
+    <ItemBox $color={color}>
       <SourceNumber>{index + 1}</SourceNumber>
       <SourceName>{name}</SourceName>
       <SourceEmail>{email}</SourceEmail>
-      <DeleteButton onClick={() => onRemove(index)}>DELETE</DeleteButton>
+      <DeleteButton onClick={onRemove}>DELETE</DeleteButton>
     </ItemBox>
   );
 };

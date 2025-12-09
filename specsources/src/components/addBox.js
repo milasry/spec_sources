@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { getRandomColor } from "../utils/colorPalette";
 
 const AddContainer = styled.p`
     height: 30px;
@@ -44,14 +45,18 @@ const Input = styled.input`
     height: 35px;
 `
 
-const AddBox = ({ sources, setSources }) => {
+const AddBox = ({ sources = [], setSources, onSubmit }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
   const submit = (e) => {
     e.preventDefault();
     if (!name.trim() || !email.trim()) return;
-    setSources([...sources, { name, email }]);
+    if (onSubmit) {
+      onSubmit({ sourceName: name, sourceEmail: email });
+    } else if (setSources) {
+      setSources(prev => [...prev, { name, email, color: getRandomColor() }]);
+    }
     setName("");
     setEmail("");
   };

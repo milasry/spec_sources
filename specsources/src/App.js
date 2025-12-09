@@ -3,8 +3,9 @@ import styled from "styled-components";
 import ListItem from "./components/listItem.js";
 import { data as initialData } from "./data/mockdata.js";
 import AddBox from "./components/addBox.js";
-import logo from "./assets/logo.png";
-import React, { useState, useEffect } from 'react';
+import logo from "./images/logo.png";
+import React, { useState } from 'react';
+import { attachColor } from "./utils/colorPalette.js";
 
 const Title = styled.h1`
   color: #36476D;
@@ -34,7 +35,7 @@ const Background = styled.div`
 `
 
 function App() {
-  const [sources, setSources] = useState(initialData);
+  const [sources, setSources] = useState(() => initialData.map(attachColor));
 
   const handleRemove = (removeIndex) => {
     setSources(sources.filter((_, index) => index !== removeIndex));
@@ -52,6 +53,7 @@ function App() {
             index={index}
             name={item.name}
             email={item.email}
+            color={item.color}
             onRemove={handleRemove}
           />
         ))}
