@@ -54,7 +54,7 @@ function App() {
             name={item.name}
             email={item.email}
             color={item.color}
-            onRemove={handleRemove}
+            onRemove={() => handleRemove(index)}
           />
         ))}
       </Main>

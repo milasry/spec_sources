@@ -19,7 +19,6 @@ const HomePage = () => {
     const [sources, setSources] = useState([]);
     const [backendMessage, setBackendMessage] = useState('');
  
-    // Fetch a simple message to confirm the backend is reachable
     React.useEffect(() => {
       axios.get('http://localhost:8000/')
         .then((response) => {
@@ -54,7 +53,6 @@ const HomePage = () => {
   
     const handleDelete = (idToDelete) => {
       setSources(prev => prev.filter(s => s.id !== idToDelete));
-      //Fetch ID to delete from the backend
       axios.delete(`http://localhost:8000/delete/${idToDelete}`)
         .catch(err => {
           console.error('Delete error:', err);
@@ -67,17 +65,4 @@ const HomePage = () => {
         <HeaderText>Spectator's Sources</HeaderText>
         <AddBox onSubmit={handleAddSource} />
         {sources.map((item, index) => (
-          <ListItem
-            key={item.id ?? index}
-            index={index}
-            name={item.name}
-            email={item.email}
-            color={item.color}
-            onRemove={() => handleDelete(item.id ?? index)}
-          />
-        ))}
-      </div>
-    );
-  };
-   
-export default HomePage;
+          <Lis
